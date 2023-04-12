@@ -1,3 +1,3 @@
-# **Cridits**
+# **Open House RIICC**
 
-Built for the RIPB Cridits System!
+```yarn run dev```
