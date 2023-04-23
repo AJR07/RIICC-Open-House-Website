@@ -5,7 +5,7 @@ type Puzzle = {
 
     // Component Props: { setScore: React.Dispatch<React.SetStateAction<number>> }
     component: React.FC<{
-        setScore: React.Dispatch<React.SetStateAction<number>>;
+        setScore: React.Dispatch<React.SetStateAction<number | null>>;
     }>;
 };
 

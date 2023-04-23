@@ -1,3 +1,3 @@
 # **Open House RIICC**
 
-```yarn run dev```
+`yarn run dev`

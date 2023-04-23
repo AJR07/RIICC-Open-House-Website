@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const puzzles: Puzzle[] = [LightSwitchGameDetails];
 
 export default function PuzzlePicker() {
-    let [score, setScore] = useState<number>(0);
+    let [score, setScore] = useState<number | null>(null);
     let [gameID, setGameID] = useState<number | null>(null);
 
     if (gameID == null) {
@@ -24,7 +24,7 @@ export default function PuzzlePicker() {
                 }}
             >
                 <h1>Choose your Puzzle!</h1>
-                <Stack direction="row">
+                <Stack direction="column">
                     {puzzles.map((puzzle, index) => {
                         return (
                             <motion.div
@@ -33,7 +33,7 @@ export default function PuzzlePicker() {
                                 key={index}
                                 onClick={() => setGameID(index)}
                                 style={{
-                                    width: "10vw",
+                                    width: "90%",
                                     backgroundColor: "#23a5ff",
                                     padding: "2vw",
                                     borderRadius: "10px",
@@ -47,8 +47,10 @@ export default function PuzzlePicker() {
                 </Stack>
             </Stack>
         );
-    } else {
+    } else if (!score) {
         let Component = puzzles[gameID].component;
         return <Component setScore={setScore} />;
+    } else {
+        return <div>Game Over!</div>;
     }
 }
