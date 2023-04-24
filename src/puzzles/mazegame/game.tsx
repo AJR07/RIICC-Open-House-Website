@@ -7,8 +7,8 @@ interface MazeGameProps {
     setScore: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const ROWS = 20;
-const COLS = 20;
+const ROWS = 30;
+const COLS = 30;
 
 function MazeGame(props: MazeGameProps) {
     const [maze] = useState(new MazeData(ROWS, COLS));
