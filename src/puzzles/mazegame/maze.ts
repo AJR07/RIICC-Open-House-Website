@@ -63,8 +63,11 @@ export class MazeData {
 
     hasWallBetween(cellA: number, cellB: number): boolean {
         return (
-            this.walls.findIndex((w) => w.cellA == cellA && w.cellB == cellB) !=
-            -1
+            this.walls.findIndex(
+                (w) =>
+                    (w.cellA == cellA && w.cellB == cellB) ||
+                    (w.cellA == cellB && w.cellB == cellA)
+            ) != -1
         );
     }
 
@@ -80,10 +83,6 @@ export class MazeData {
                 ufds.union(wall.cellA, wall.cellB);
             }
         }
-    }
-
-    isConnected(cellA: number, cellB: number): boolean {
-        return !this.hasWallBetween(cellA, cellB);
     }
 
     private allWalls(): Wall[] {
@@ -117,5 +116,12 @@ export class MazeData {
 
     cellToCoord(cell: number): [number, number] {
         return [cell % this.width, Math.floor(cell / this.width)];
+    }
+
+    isAdjacent(cellA: number, cellB: number): boolean {
+        const [i, j] = this.cellToCoord(cellA);
+        const [x, y] = this.cellToCoord(cellB);
+        const manhattenDist = Math.abs(i - x) + Math.abs(j - y);
+        return manhattenDist == 1;
     }
 }

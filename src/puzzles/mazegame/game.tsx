@@ -39,20 +39,28 @@ function MazeGame(props: MazeGameProps) {
             const onMouseEnter: MouseEventHandler<HTMLDivElement> = (ev) => {
                 if (ev.buttons != 1) return;
 
-                if (selectedCells.includes(cell)) {
+                if (
+                    selectedCells.length >= 2 &&
+                    selectedCells.indexOf(cell) == selectedCells.length - 2
+                ) {
+                    setSelectedCells(() => selectedCells.slice(0, -1));
                     return;
                 }
+
+                if (selectedCells.includes(cell)) return;
 
                 if (selectedCells.length == 0) {
                     if (i == 0 && j == 0) {
                         setSelectedCells([cell]);
-                    } else {
-                        return;
                     }
+                    return;
                 }
 
-                const latest = selectedCells[selectedCells.length - 1];
-                if (maze.isConnected(cell, latest)) {
+                const latest = selectedCells.at(-1)!;
+                if (
+                    maze.isAdjacent(cell, latest) &&
+                    !maze.hasWallBetween(cell, latest)
+                ) {
                     setSelectedCells(() => [...selectedCells, cell]);
                 }
             };
@@ -61,6 +69,7 @@ function MazeGame(props: MazeGameProps) {
                 <div
                     key={`${i}-${j}`}
                     onMouseEnter={onMouseEnter}
+                    onMouseDown={onMouseEnter}
                     style={{
                         position: "absolute",
                         top: `calc(${gridSqSize} * ${i})`,
@@ -69,7 +78,9 @@ function MazeGame(props: MazeGameProps) {
                         height: gridSqSize,
 
                         backgroundColor: selectedCells.includes(cell)
-                            ? "red"
+                            ? selectedCells.at(-1) == cell
+                                ? "red"
+                                : "blue"
                             : "transparent",
 
                         borderTop: maze.hasWall(cell, "top")
@@ -91,7 +102,7 @@ function MazeGame(props: MazeGameProps) {
     }
 
     return (
-        <div>
+        <div style={{ userSelect: "none" }}>
             <p>Time elapsed: {formatTime(timeElapsed)}</p>
             <div
                 style={{
