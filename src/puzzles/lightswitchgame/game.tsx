@@ -25,7 +25,10 @@ function LightSwitch(props: LightSwitchProps) {
     return (
         <div style={{ padding: "2vw" }}>
             <h1>Light Switch</h1>
-            <p>The switches would help to toggle a certain range of lights. </p>
+            <p>
+                The switches would help to toggle a certain range of lights. The
+                goal is to turn on all the lights.
+            </p>
             <StopWatch
                 timeElapsed={timeElapsed}
                 setTimeElapsed={setTimeElapsed}
