@@ -62,6 +62,10 @@ function MazeGame(props: MazeGameProps) {
                     !maze.hasWallBetween(cell, latest)
                 ) {
                     setSelectedCells(() => [...selectedCells, cell]);
+                    if (i == maze.height - 1 && j == maze.width - 1) {
+                        // completed the thing
+                        props.setScore(timeElapsed);
+                    }
                 }
             };
 
