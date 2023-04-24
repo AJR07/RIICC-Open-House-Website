@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import Puzzle from "../../pages/puzzle/types/puzzle";
 import formatTime from "../../utils/formattime";
 import { MazeData } from "./maze";
@@ -12,6 +12,7 @@ const COLS = 20;
 
 function MazeGame(props: MazeGameProps) {
     const [maze] = useState(new MazeData(ROWS, COLS));
+    const [selectedCells, setSelectedCells] = useState<number[]>([]);
 
     const gridSqSize = "20px";
 
@@ -34,9 +35,32 @@ function MazeGame(props: MazeGameProps) {
     const divs = [];
     for (let i = 0; i < maze.height; i++) {
         for (let j = 0; j < maze.width; j++) {
+            const cell = maze.coordToCell(i, j);
+            const onMouseEnter: MouseEventHandler<HTMLDivElement> = (ev) => {
+                if (ev.buttons != 1) return;
+
+                if (selectedCells.includes(cell)) {
+                    return;
+                }
+
+                if (selectedCells.length == 0) {
+                    if (i == 0 && j == 0) {
+                        setSelectedCells([cell]);
+                    } else {
+                        return;
+                    }
+                }
+
+                const latest = selectedCells[selectedCells.length - 1];
+                if (maze.isConnected(cell, latest)) {
+                    setSelectedCells(() => [...selectedCells, cell]);
+                }
+            };
+
             divs.push(
                 <div
                     key={`${i}-${j}`}
+                    onMouseEnter={onMouseEnter}
                     style={{
                         position: "absolute",
                         top: `calc(${gridSqSize} * ${i})`,
@@ -44,16 +68,20 @@ function MazeGame(props: MazeGameProps) {
                         width: gridSqSize,
                         height: gridSqSize,
 
-                        borderTop: maze.hasWall(i, j, "top")
+                        backgroundColor: selectedCells.includes(cell)
+                            ? "red"
+                            : "transparent",
+
+                        borderTop: maze.hasWall(cell, "top")
                             ? borderStyle
                             : noBorderStyle,
-                        borderBottom: maze.hasWall(i, j, "bottom")
+                        borderBottom: maze.hasWall(cell, "bottom")
                             ? borderStyle
                             : noBorderStyle,
-                        borderLeft: maze.hasWall(i, j, "left")
+                        borderLeft: maze.hasWall(cell, "left")
                             ? borderStyle
                             : noBorderStyle,
-                        borderRight: maze.hasWall(i, j, "right")
+                        borderRight: maze.hasWall(cell, "right")
                             ? borderStyle
                             : noBorderStyle,
                     }}
@@ -63,15 +91,17 @@ function MazeGame(props: MazeGameProps) {
     }
 
     return (
-        <div
-            style={{
-                position: "relative",
-                width: `calc(${gridSqSize} * ${maze.width})`,
-                height: `calc(${gridSqSize} * ${maze.height})`,
-            }}
-        >
+        <div>
             <p>Time elapsed: {formatTime(timeElapsed)}</p>
-            {divs}
+            <div
+                style={{
+                    position: "relative",
+                    width: `calc(${gridSqSize} * ${maze.width})`,
+                    height: `calc(${gridSqSize} * ${maze.height})`,
+                }}
+            >
+                {divs}
+            </div>
         </div>
     );
 }

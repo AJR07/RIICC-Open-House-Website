@@ -26,11 +26,9 @@ export class MazeData {
         this.generateMaze();
     }
 
-    hasWall(
-        i: number,
-        j: number,
-        side: "top" | "bottom" | "left" | "right"
-    ): boolean {
+    hasWall(cell: number, side: "top" | "bottom" | "left" | "right"): boolean {
+        const [i, j] = this.cellToCoord(cell);
+
         if (i < 0 || i >= this.height)
             throw new Error(`i value out of range, ${i}`);
         if (j < 0 || j >= this.width)
@@ -41,7 +39,6 @@ export class MazeData {
         if (i == this.height - 1 && j == this.width - 1 && side == "bottom")
             return false;
 
-        const cell = this.coordToCell(i, j);
         switch (side) {
             case "top":
                 return i == 0
@@ -85,6 +82,10 @@ export class MazeData {
         }
     }
 
+    isConnected(cellA: number, cellB: number): boolean {
+        return !this.hasWallBetween(cellA, cellB);
+    }
+
     private allWalls(): Wall[] {
         const walls: Wall[] = [];
         for (let i = 0; i < this.height; i++) {
@@ -110,7 +111,11 @@ export class MazeData {
         return walls;
     }
 
-    private coordToCell(x: number, y: number): number {
+    coordToCell(x: number, y: number): number {
         return x + y * this.width;
+    }
+
+    cellToCoord(cell: number): [number, number] {
+        return [cell % this.width, Math.floor(cell / this.width)];
     }
 }
