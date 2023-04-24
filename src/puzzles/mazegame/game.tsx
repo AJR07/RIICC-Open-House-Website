@@ -1,10 +1,10 @@
-import { MouseEventHandler, useEffect, useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import Puzzle from "../../pages/puzzle/types/puzzle";
-import formatTime from "../../utils/formattime";
 import { MazeData } from "./maze";
+import StopWatch from "../../components/stopwatch";
 
 interface MazeGameProps {
-    setScore: React.Dispatch<React.SetStateAction<number>>;
+    setScore: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const ROWS = 30;
@@ -13,24 +13,12 @@ const COLS = 30;
 function MazeGame(props: MazeGameProps) {
     const [maze] = useState(new MazeData(ROWS, COLS));
     const [selectedCells, setSelectedCells] = useState<number[]>([]);
+    const [timeElapsed, setTimeElapsed] = useState(0);
 
     const gridSqSize = "20px";
 
     const borderStyle = "1px solid white";
     const noBorderStyle = "none";
-
-    const [startTime] = useState(Date.now());
-    const [timeElapsed, setTimeElapsed] = useState(0);
-
-    useEffect(() => {
-        let interval = setInterval(() => {
-            setTimeElapsed(Date.now() - startTime);
-        }, 1000);
-
-        return () => {
-            clearInterval(interval);
-        };
-    });
 
     const divs = [];
     for (let i = 0; i < maze.height; i++) {
@@ -112,7 +100,10 @@ function MazeGame(props: MazeGameProps) {
 
     return (
         <div style={{ userSelect: "none" }}>
-            <p>Time elapsed: {formatTime(timeElapsed)}</p>
+            <StopWatch
+                timeElapsed={timeElapsed}
+                setTimeElapsed={setTimeElapsed}
+            />
             <div
                 style={{
                     position: "relative",

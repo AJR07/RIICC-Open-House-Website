@@ -25,7 +25,7 @@ export default function PuzzlePicker() {
                 }}
             >
                 <h1>Choose your Puzzle!</h1>
-                <Stack direction="column">
+                <Stack direction="column" spacing={3}>
                     {puzzles.map((puzzle, index) => {
                         return (
                             <motion.div

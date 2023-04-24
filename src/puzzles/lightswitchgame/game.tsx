@@ -3,6 +3,7 @@ import Puzzle from "../../pages/puzzle/types/puzzle";
 import SwitchSimulation from "./switch";
 import { Stack } from "@mui/material";
 import { motion } from "framer-motion";
+import StopWatch from "../../components/stopwatch";
 
 interface LightSwitchProps {
     setScore: React.Dispatch<React.SetStateAction<number | null>>;
@@ -10,6 +11,7 @@ interface LightSwitchProps {
 
 function LightSwitch(props: LightSwitchProps) {
     let [gameState, setGameState] = useState<null | SwitchSimulation>(null);
+    let [timeElapsed, setTimeElapsed] = useState(0);
 
     useEffect(() => {
         let simulation = new SwitchSimulation(
@@ -24,6 +26,10 @@ function LightSwitch(props: LightSwitchProps) {
         <div style={{ padding: "2vw" }}>
             <h1>Light Switch</h1>
             <p>The switches would help to toggle a certain range of lights. </p>
+            <StopWatch
+                timeElapsed={timeElapsed}
+                setTimeElapsed={setTimeElapsed}
+            />
             {!gameState ? (
                 <p>Loading...</p>
             ) : (
