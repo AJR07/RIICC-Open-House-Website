@@ -3,8 +3,9 @@ import Puzzle from "./types/puzzle";
 import { useState } from "react";
 import LightSwitchGameDetails from "../../puzzles/lightswitchgame/game";
 import { motion } from "framer-motion";
+import MazeGameDetails from "../../puzzles/mazegame/game";
 
-const puzzles: Puzzle[] = [LightSwitchGameDetails];
+const puzzles: Puzzle[] = [LightSwitchGameDetails, MazeGameDetails];
 
 export default function PuzzlePicker() {
     let [score, setScore] = useState<number | null>(null);
