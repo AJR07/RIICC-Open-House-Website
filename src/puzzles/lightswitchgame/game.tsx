@@ -98,6 +98,7 @@ const LightSwitchGameDetails: Puzzle = {
         "You have 10 switches and 30 target lights. Each switch, upon clicked, could carry out one of the 3 operations: 1. Turn off any continuous range of lights, 2. Turn on any continuous range of lights, 3. Toggle any continuous range of lights. The goal is to turn on all the lights. The time taken to solve the puzzle is the score. Each puzzle will take at least 7 clicks on a switch to solve.",
     icon: "",
     component: LightSwitch,
+    debrief: "todo",
 };
 
 export default LightSwitchGameDetails;

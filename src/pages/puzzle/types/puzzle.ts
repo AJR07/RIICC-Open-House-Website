@@ -1,6 +1,7 @@
 type Puzzle = {
     name: string;
     description: string;
+    debrief: string;
     icon: string;
 
     // Component Props: { setScore: React.Dispatch<React.SetStateAction<number>> }
