@@ -76,6 +76,7 @@ function MazeGame(props: MazeGameProps) {
                         left: `calc(${gridSqSize} * ${j})`,
                         width: gridSqSize,
                         height: gridSqSize,
+                        boxSizing: "border-box",
 
                         backgroundColor: selectedCells.includes(cell)
                             ? selectedCells.at(-1) == cell
@@ -83,15 +84,19 @@ function MazeGame(props: MazeGameProps) {
                                 : "blue"
                             : "transparent",
 
-                        borderTop: maze.hasWall(cell, "top")
-                            ? borderStyle
-                            : noBorderStyle,
+                        // each cell only draws the border on the bottom and right, to avoid duplicating
+                        // excepet for the leftmost and tomost cells
+                        borderTop:
+                            i == 0 && maze.hasWall(cell, "top")
+                                ? borderStyle
+                                : noBorderStyle,
                         borderBottom: maze.hasWall(cell, "bottom")
                             ? borderStyle
                             : noBorderStyle,
-                        borderLeft: maze.hasWall(cell, "left")
-                            ? borderStyle
-                            : noBorderStyle,
+                        borderLeft:
+                            j == 0 && maze.hasWall(cell, "left")
+                                ? borderStyle
+                                : noBorderStyle,
                         borderRight: maze.hasWall(cell, "right")
                             ? borderStyle
                             : noBorderStyle,
