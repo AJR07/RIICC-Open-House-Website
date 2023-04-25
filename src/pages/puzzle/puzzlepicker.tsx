@@ -5,6 +5,7 @@ import LightSwitchGameDetails from "../../puzzles/lightswitchgame/game";
 import { motion } from "framer-motion";
 import MazeGameDetails from "../../puzzles/mazegame/game";
 import { Score } from "./types/score";
+import ScoreSubmission from "./scoresubmission";
 
 const puzzles: Puzzle[] = [LightSwitchGameDetails, MazeGameDetails];
 
@@ -62,6 +63,8 @@ export default function PuzzlePicker() {
                         __html: puzzles[gameID].debrief,
                     }}
                 ></div>
+                <br />
+                <ScoreSubmission score={score} gameID={puzzles[gameID].name} />
             </div>
         );
     }
