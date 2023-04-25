@@ -2,9 +2,11 @@ import { MouseEventHandler, useState } from "react";
 import Puzzle from "../../pages/puzzle/types/puzzle";
 import { MazeData } from "./maze";
 import StopWatch from "../../components/stopwatch";
+import { Score, TimeScore } from "../../pages/puzzle/types/score";
+import SetScoreFn from "../../pages/puzzle/types/setScoreFn";
 
 interface MazeGameProps {
-    setScore: React.Dispatch<React.SetStateAction<number | null>>;
+    setScore: SetScoreFn;
 }
 
 // const ROWS = 30;
@@ -54,7 +56,7 @@ function MazeGame(props: MazeGameProps) {
                     setSelectedCells(() => [...selectedCells, cell]);
                     if (i == maze.height - 1 && j == maze.width - 1) {
                         // completed the thing
-                        props.setScore(timeElapsed);
+                        props.setScore(new TimeScore(timeElapsed));
                     }
                 }
             };

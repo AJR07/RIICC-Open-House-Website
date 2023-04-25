@@ -4,9 +4,10 @@ import SwitchSimulation from "./switch";
 import { Stack } from "@mui/material";
 import { motion } from "framer-motion";
 import StopWatch from "../../components/stopwatch";
+import SetScoreFn from "../../pages/puzzle/types/setScoreFn";
 
 interface LightSwitchProps {
-    setScore: React.Dispatch<React.SetStateAction<number | null>>;
+    setScore: SetScoreFn;
 }
 
 function LightSwitch(props: LightSwitchProps) {

@@ -4,11 +4,12 @@ import { useState } from "react";
 import LightSwitchGameDetails from "../../puzzles/lightswitchgame/game";
 import { motion } from "framer-motion";
 import MazeGameDetails from "../../puzzles/mazegame/game";
+import { Score } from "./types/score";
 
 const puzzles: Puzzle[] = [LightSwitchGameDetails, MazeGameDetails];
 
 export default function PuzzlePicker() {
-    let [score, setScore] = useState<number | null>(null);
+    let [score, setScore] = useState<Score | null>(null);
     let [gameID, setGameID] = useState<number | null>(null);
 
     if (gameID == null) {
@@ -55,7 +56,7 @@ export default function PuzzlePicker() {
         return (
             <div>
                 Game Over!
-                <div>Score: {score}</div>
+                <div>Score: {score.toString()}</div>
                 <div
                     dangerouslySetInnerHTML={{
                         __html: puzzles[gameID].debrief,

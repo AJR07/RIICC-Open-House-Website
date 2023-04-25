@@ -1,3 +1,6 @@
+import { CountScore } from "../../pages/puzzle/types/score";
+import SetScoreFn from "../../pages/puzzle/types/setScoreFn";
+
 interface Switch {
     startRange: number;
     endRange: number;
@@ -9,12 +12,12 @@ export default class SwitchSimulation {
     lightLength: number;
     switches: Switch[];
     lights: boolean[];
-    setScore: React.Dispatch<React.SetStateAction<number | null>>;
+    setScore: SetScoreFn;
 
     constructor(
         switchLength: number,
         lightLength: number,
-        setScore: React.Dispatch<React.SetStateAction<number | null>>
+        setScore: SetScoreFn
     ) {
         this.switchLength = switchLength;
         this.lightLength = lightLength;
@@ -103,7 +106,7 @@ export default class SwitchSimulation {
 
         if (this.checkWin()) {
             setTimeout(() => {
-                this.setScore(this.switchLength);
+                this.setScore(new CountScore(this.switchLength));
             }, 2000);
         }
     }

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import SetScoreFn from "../pages/puzzle/types/setScoreFn";
 import formatTime from "../utils/formattime";
 
 interface StopWatchProps {
-    setTimeElapsed: React.Dispatch<React.SetStateAction<number>>;
+    setTimeElapsed: SetScoreFn;
     timeElapsed: number;
 }
 
@@ -13,7 +14,7 @@ export default function StopWatch(props: StopWatchProps) {
     useEffect(() => {
         let interval = setInterval(() => {
             setTimeElapsed(Date.now() - startTime);
-        }, 1000);
+        }, 100);
 
         return () => {
             clearInterval(interval);
