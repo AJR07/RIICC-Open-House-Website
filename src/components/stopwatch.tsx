@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import SetScoreFn from "../pages/puzzle/types/setScoreFn";
 import formatTime from "../utils/formattime";
 
 interface StopWatchProps {
-    setTimeElapsed: SetScoreFn;
+    setTimeElapsed: React.Dispatch<React.SetStateAction<number>>;
     timeElapsed: number;
 }
 
