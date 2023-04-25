@@ -7,8 +7,10 @@ interface MazeGameProps {
     setScore: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-const ROWS = 30;
-const COLS = 30;
+// const ROWS = 30;
+// const COLS = 30;
+const ROWS = 5;
+const COLS = 5;
 
 function MazeGame(props: MazeGameProps) {
     const [maze] = useState(new MazeData(ROWS, COLS));
@@ -122,6 +124,13 @@ const MazeGameDetails: Puzzle = {
     description: "Find the way to the exit in the fastest time possible!",
     icon: "",
     component: MazeGame,
+    debrief:
+        "Reflect on the process which you used to solve the maze. \
+    How did you systematically try to find your way to the exit? \
+    Do you know if that is the shortest possible path? \
+    How <em>do</em> you find the shortest possible path? \
+    <br />  \
+    P.S. what sort of algorithm (i.e. process) was used to generate this random maze in the first place?",
 };
 
 export default MazeGameDetails;

@@ -52,6 +52,16 @@ export default function PuzzlePicker() {
         let Component = puzzles[gameID].component;
         return <Component setScore={setScore} />;
     } else {
-        return <div>Game Over!</div>;
+        return (
+            <div>
+                Game Over!
+                <div>Score: {score}</div>
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: puzzles[gameID].debrief,
+                    }}
+                ></div>
+            </div>
+        );
     }
 }
