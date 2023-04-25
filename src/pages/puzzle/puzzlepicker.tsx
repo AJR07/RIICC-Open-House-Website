@@ -56,7 +56,11 @@ export default function PuzzlePicker() {
             <div>
                 Game Over!
                 <div>Score: {score}</div>
-                <div>{puzzles[gameID].debrief}</div>
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: puzzles[gameID].debrief,
+                    }}
+                ></div>
             </div>
         );
     }
