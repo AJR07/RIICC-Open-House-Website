@@ -4,6 +4,7 @@ import { Score } from "./types/score";
 import { getDatabase, ref, set } from "firebase/database";
 import firebaseApp from "../../utils/firebase";
 import LeaderBoard from "../../components/leaderboard";
+import LeaderBoardData from "../../types/leaderboarddata";
 
 const db = getDatabase(firebaseApp);
 
@@ -15,22 +16,6 @@ interface ScoreSubmissionProps {
 export default function ScoreSubmission(props: ScoreSubmissionProps) {
     let [name, setName] = useState<string>("");
     let [submitted, setSubmitted] = useState<boolean>(false);
-
-    useEffect(() => {
-        set(
-            ref(
-                db,
-                `game/${props.gameID}/${new Date()
-                    .toLocaleDateString("en-SG")
-                    .replaceAll("/", "-")}`
-            ),
-            {
-                name: name,
-                score: props.score.toString(),
-                date: Date.now(),
-            }
-        );
-    }, [submitted]);
 
     if (!submitted) {
         return (
@@ -59,6 +44,25 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                     }}
                     onKeyPress={(event) => {
                         if (event.key === "Enter" && name !== "") {
+                            let date =
+                                new Date()
+                                    .toLocaleDateString("en-SG", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    })
+                                    .replaceAll("/", "-") +
+                                new Date().toLocaleString("en-SG", {
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                    second: "numeric",
+                                    hour12: false,
+                                });
+                            set(ref(db, `game/${props.gameID}/${date}`), {
+                                name: name,
+                                score: props.score.value,
+                                date: date,
+                            } as LeaderBoardData);
                             setSubmitted(true);
                         }
                     }}
@@ -69,7 +73,7 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
         return (
             <Stack style={{ display: "flex", justifyContent: "center" }}>
                 <h5>Successfully recorded!</h5>
-                <LeaderBoard />
+                <LeaderBoard gameID={props.gameID} />
             </Stack>
         );
     }
