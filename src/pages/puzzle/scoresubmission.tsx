@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Score } from "./types/score";
 import { getDatabase, ref, set } from "firebase/database";
 import firebaseApp from "../../utils/firebase";
-import LeaderBoard from "../../components/leaderboard";
 import LeaderBoardData from "../../types/leaderboarddata";
 
 const db = getDatabase(firebaseApp);
@@ -26,8 +25,8 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                     alignItems: "center",
                     justifyContent: "center",
                     backgroundColor: "#23a5ff",
-                    marginLeft: "20vw",
-                    marginRight: "20vw",
+                    // marginLeft: "20vw",
+                    // marginRight: "20vw",
                     borderRadius: "1vw",
                     padding: "2vw",
                     paddingTop: 0,
@@ -73,11 +72,6 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
             </Stack>
         );
     } else {
-        return (
-            <Stack style={{ display: "flex", justifyContent: "center" }}>
-                <h5>Successfully recorded!</h5>
-                <LeaderBoard gameID={props.gameID} />
-            </Stack>
-        );
+        return <h5>Successfully recorded!</h5>;
     }
 }

@@ -10,8 +10,10 @@ interface MazeGameProps {
     setScore: SetScoreFn;
 }
 
-const ROWS = 20;
-const COLS = 20;
+// const ROWS = 20;
+// const COLS = 20;
+const ROWS = 5;
+const COLS = 5;
 
 function MazeGame(props: MazeGameProps) {
     const [maze] = useState(new MazeData(ROWS, COLS));

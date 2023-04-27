@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import MazeGameDetails from "../../puzzles/mazegame/game";
 import { Score } from "./types/score";
 import ScoreSubmission from "./scoresubmission";
+import LeaderBoard from "../../components/leaderboard";
 
 const puzzles: Puzzle[] = [LightSwitchGameDetails, MazeGameDetails];
 
@@ -59,16 +60,25 @@ export default function PuzzlePicker() {
         return <Component setScore={setScore} />;
     } else {
         return (
-            <Stack style={{ padding: "3vw" }}>
-                <h1 style={{ margin: 0 }}>Game Over, You did it!</h1>
-                <h2>Score: {score.toString()}</h2>
-                <p
-                    dangerouslySetInnerHTML={{
-                        __html: puzzles[gameID].debrief,
-                    }}
-                ></p>
-                <br />
-                <ScoreSubmission score={score} gameID={puzzles[gameID].name} />
+            <Stack direction="row">
+                <Stack style={{ padding: "3vw", flex: "1", width: "100%" }}>
+                    <h1 style={{ margin: 0 }}> Game Over, You did it!</h1>
+                    <h2>Score: {score.toString()}</h2>
+                    <p
+                        dangerouslySetInnerHTML={{
+                            __html: puzzles[gameID].debrief,
+                        }}
+                        style={{ textAlign: "justify" }}
+                    ></p>
+                    <br />
+                    <ScoreSubmission
+                        score={score}
+                        gameID={puzzles[gameID].name}
+                    />
+                </Stack>
+                <div style={{ flex: "1", width: "100%" }}>
+                    <LeaderBoard gameID={puzzles[gameID].name} />
+                </div>
             </Stack>
         );
     }
