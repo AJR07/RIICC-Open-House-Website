@@ -24,7 +24,7 @@ export default function LeaderBoard(props: LeaderBoardProps) {
                             }}
                         >
                             <div>
-                                {index + 1}. {data.name}
+                                #{index + 1}. {data.name}
                             </div>
                             <div style={{ flexGrow: "1" }}></div>
                             <div>{data.scoreFormatted}</div>
