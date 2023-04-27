@@ -29,6 +29,7 @@ export default function PuzzlePicker() {
                 <h1>Choose your Puzzle!</h1>
                 <Stack direction="column" spacing={3}>
                     {puzzles.map((puzzle, index) => {
+                        let Icon = puzzle.icon;
                         return (
                             <motion.div
                                 whileHover={{ scale: 1.05 }}
@@ -42,7 +43,10 @@ export default function PuzzlePicker() {
                                     borderRadius: "10px",
                                 }}
                             >
-                                <h2>{puzzle.name}</h2>
+                                <Stack direction="row" spacing={3}>
+                                    <Icon />
+                                    <h2>{puzzle.name}</h2>
+                                </Stack>
                                 <p>{puzzle.description}</p>
                             </motion.div>
                         );

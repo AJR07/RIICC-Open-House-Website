@@ -2,17 +2,16 @@ import { MouseEventHandler, useState } from "react";
 import Puzzle from "../../pages/puzzle/types/puzzle";
 import { MazeData } from "./maze";
 import StopWatch from "../../components/stopwatch";
-import { Score, TimeScore } from "../../pages/puzzle/types/score";
+import { TimeScore } from "../../pages/puzzle/types/score";
+import SearchIcon from "@mui/icons-material/Search";
 import SetScoreFn from "../../pages/puzzle/types/setScoreFn";
 
 interface MazeGameProps {
     setScore: SetScoreFn;
 }
 
-// const ROWS = 30;
-// const COLS = 30;
-const ROWS = 5;
-const COLS = 5;
+const ROWS = 20;
+const COLS = 20;
 
 function MazeGame(props: MazeGameProps) {
     const [maze] = useState(new MazeData(ROWS, COLS));
@@ -81,7 +80,7 @@ function MazeGame(props: MazeGameProps) {
                             : "transparent",
 
                         // each cell only draws the border on the bottom and right, to avoid duplicating
-                        // excepet for the leftmost and tomost cells
+                        // except for the leftmost and topmost cells
                         borderTop:
                             i == 0 && maze.hasWall(cell, "top")
                                 ? borderStyle
@@ -123,8 +122,9 @@ function MazeGame(props: MazeGameProps) {
 
 const MazeGameDetails: Puzzle = {
     name: "Maze",
-    description: "Find the way to the exit in the fastest time possible!",
-    icon: "",
+    description:
+        "You are given a 20x20 maze. Find the way from the start to the exit in the fastest time possible!",
+    icon: SearchIcon,
     component: MazeGame,
     debrief:
         "Reflect on the process which you used to solve the maze. \
@@ -132,7 +132,13 @@ const MazeGameDetails: Puzzle = {
     Do you know if that is the shortest possible path? \
     How <em>do</em> you find the shortest possible path? \
     <br />  \
-    P.S. what sort of algorithm (i.e. process) was used to generate this random maze in the first place?",
+    P.S. what sort of algorithm (i.e. process) was used to generate this random maze in the first place? \
+    A few tips to get you started: \
+    1. You should try to generally move towards the exit. \
+    2. You should try to avoid going back to places you've already been. \
+    3. Do not be afraid to backtrack if you get stuck. \
+    4. You can initially use your eyes to trace the path, it could be more efficient \
+    5. You could try to go from the exit to the start instead if you get stuck.",
 };
 
 export default MazeGameDetails;

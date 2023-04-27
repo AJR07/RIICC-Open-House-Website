@@ -5,6 +5,7 @@ import { Stack } from "@mui/material";
 import { motion } from "framer-motion";
 import StopWatch from "../../components/stopwatch";
 import SetScoreFn from "../../pages/puzzle/types/setScoreFn";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
 
 interface LightSwitchProps {
     setScore: SetScoreFn;
@@ -16,8 +17,8 @@ function LightSwitch(props: LightSwitchProps) {
 
     useEffect(() => {
         let simulation = new SwitchSimulation(
-            Math.random() * 5 + 5,
-            Math.random() * 7 + 10,
+            Math.random() * 2 + 5,
+            Math.random() * 2 + 10,
             props.setScore
         );
         setGameState(simulation);
@@ -103,12 +104,13 @@ function LightSwitch(props: LightSwitchProps) {
 }
 
 const LightSwitchGameDetails: Puzzle = {
-    name: "Light Switch",
+    name: "Light Switch Game",
     description:
-        "You have 10 switches and 30 target lights. Each switch, upon clicked, could carry out one of the 3 operations: 1. Turn off any continuous range of lights, 2. Turn on any continuous range of lights, 3. Toggle any continuous range of lights. The goal is to turn on all the lights. The time taken to solve the puzzle is the score. Each puzzle will take at least 7 clicks on a switch to solve.",
-    icon: "",
+        "You have 5-7 switches, and 10-12 lights. Each switch would toggle a certain range of lights. Thus, if the toggled range has lights: 'on on off off', the switch will cause the lights to become: 'off off on on'. The goal is to turn on all the lights. The time taken to solve the puzzle is the score.",
+    icon: LightbulbIcon,
     component: LightSwitch,
-    debrief: "todo",
+    debrief:
+        "Reflect on how your strategy could have been improved, or did you use a strategy to begin with? There are a few techniques that can minimize your time for this puzzle. That includes: 1. Remembering which switch toggles what range, 2. When a few lights are left to be switched on, only fiddling and toggling those that affect those lights, 3. A switch which toggles a large range might still be needed to fix a few lights, so don't hesitate to toggle them, 4. Just keep toggling, do not waste time.",
 };
 
 export default LightSwitchGameDetails;
