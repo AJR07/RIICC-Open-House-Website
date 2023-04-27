@@ -13,7 +13,7 @@ export default function StopWatch(props: StopWatchProps) {
     useEffect(() => {
         let interval = setInterval(() => {
             setTimeElapsed(Date.now() - startTime);
-        }, 100);
+        }, 10);
 
         return () => {
             clearInterval(interval);
