@@ -24,7 +24,6 @@ export default function LeaderBoard(props: LeaderBoardProps) {
         onValue(reference, (snapshot) => {
             if (!snapshot.exists()) return;
             let data = snapshot.val();
-            console.log(data);
             let leaderboardData: LeaderBoardData[] = [];
             for (let dateData of Object.values(data)) {
                 leaderboardData.push(dateData as LeaderBoardData);
@@ -44,7 +43,7 @@ export default function LeaderBoard(props: LeaderBoardProps) {
                 {leaderboard.map((data, index) => {
                     return (
                         <p>
-                            {index + 1}. {data.name}: {data.score}
+                            {index + 1}. {data.name}: {data.scoreFormatted}
                         </p>
                     );
                 })}

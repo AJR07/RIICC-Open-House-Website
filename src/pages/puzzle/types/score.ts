@@ -11,13 +11,13 @@ export abstract class Score {
 }
 
 export class CountScore extends Score {
-    toString(): string {
-        return `${this.value}`;
+    toString(value = this.value): string {
+        return `${value} tries`;
     }
 }
 
 export class TimeScore extends Score {
-    toString(): string {
-        return formatTime(this.value);
+    toString(value = this.value): string {
+        return formatTime(value);
     }
 }

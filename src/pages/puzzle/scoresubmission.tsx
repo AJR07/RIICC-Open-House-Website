@@ -64,6 +64,7 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                                 name: name,
                                 score: props.score.value,
                                 date: date,
+                                scoreFormatted: props.score.toString(),
                             } as LeaderBoardData);
                             setSubmitted(true);
                         }

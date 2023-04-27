@@ -31,6 +31,7 @@ function LightSwitch(props: LightSwitchProps) {
                 The switches would help to toggle a certain range of lights. The
                 goal is to turn on all the lights.
             </p>
+            <h3>Score: {gameState?.tries ?? 0}</h3>
             <StopWatch
                 timeElapsed={timeElapsed}
                 setTimeElapsed={setTimeElapsed}
