@@ -1,9 +1,10 @@
-import { TextField, Button, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Score } from "./types/score";
-import { getDatabase, ref, set } from "firebase/database";
+import { TextField, Stack } from "@mui/material";
+import { useState } from "react";
+import { compareScoreValue, Score } from "./types/score";
+import { getDatabase, ref, set, update } from "firebase/database";
 import firebaseApp from "../../utils/firebase";
 import LeaderBoardData from "../../types/leaderboarddata";
+import { useLeaderboard } from "../../hooks/leaderboardhook";
 
 const db = getDatabase(firebaseApp);
 
@@ -14,9 +15,11 @@ interface ScoreSubmissionProps {
 
 export default function ScoreSubmission(props: ScoreSubmissionProps) {
     let [name, setName] = useState<string>("");
-    let [submitted, setSubmitted] = useState<boolean>(false);
+    let [statusMsg, setStatusMsg] = useState<string | null>(null);
 
-    if (!submitted) {
+    const leaderboard = useLeaderboard(props.gameID);
+
+    if (statusMsg == null) {
         return (
             <Stack
                 id="score-register-form"
@@ -43,8 +46,55 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                         setName(event.target.value);
                     }}
                     fullWidth
-                    onKeyPress={(event) => {
+                    onKeyPress={async (event) => {
                         if (event.key === "Enter" && name !== "") {
+                            // check if name already exists
+                            const existingEntry = leaderboard.find(
+                                (v) => v.name == name.trim()
+                            );
+                            if (existingEntry) {
+                                if (
+                                    confirm(
+                                        "There is already someone with the same name on the leaderboard. If you re-trying the puzzle, click ok and your old score will be updated. Otherwise, go back and use a differnt name :D"
+                                    )
+                                ) {
+                                    // check if it's faster than existing entry
+                                    if (
+                                        compareScoreValue(props.gameID)(
+                                            props.score.value,
+                                            existingEntry.score
+                                        ) > 0
+                                    ) {
+                                        // not better
+                                        alert(
+                                            "Your new score is worse than your old score, so no changes will be made."
+                                        );
+                                        setStatusMsg(
+                                            "Leaderboard wasn't updated with worse score."
+                                        );
+                                        return;
+                                    } else {
+                                        // override the score
+                                        const newData = {
+                                            ...existingEntry,
+                                            score: props.score.value,
+                                            scoreFormatted:
+                                                props.score.toString(),
+                                        };
+                                        await update(ref(db), {
+                                            [`game/${props.gameID}/${existingEntry.date}`]:
+                                                newData,
+                                        });
+                                        setStatusMsg(
+                                            "Successfully updated leaderboard!"
+                                        );
+                                    }
+                                    return;
+                                } else {
+                                    return;
+                                }
+                            }
+
                             let date =
                                 new Date()
                                     .toLocaleDateString("en-SG", {
@@ -59,19 +109,20 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                                     second: "numeric",
                                     hour12: false,
                                 });
-                            set(ref(db, `game/${props.gameID}/${date}`), {
+
+                            await set(ref(db, `game/${props.gameID}/${date}`), {
                                 name: name,
                                 score: props.score.value,
                                 date: date,
                                 scoreFormatted: props.score.toString(),
                             } as LeaderBoardData);
-                            setSubmitted(true);
+                            setStatusMsg("Successfully recorded!");
                         }
                     }}
                 />
             </Stack>
         );
     } else {
-        return <h5>Successfully recorded!</h5>;
+        return <h5>{statusMsg}</h5>;
     }
 }

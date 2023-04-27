@@ -21,3 +21,19 @@ export class TimeScore extends Score {
         return formatTime(value);
     }
 }
+
+// returns a callback that returns negative if a is _better_ score than b
+export function compareScoreValue(
+    gameID: string
+): (a: number, b: number) => number {
+    return (a: number, b: number): number => {
+        switch (gameID) {
+            case "Light Switch Game":
+                return a - b; // smaller is better
+            case "Maze":
+                return a - b; //smaller is better
+            default:
+                return b - a; // default to bigger = better
+        }
+    };
+}
