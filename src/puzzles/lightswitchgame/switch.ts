@@ -7,12 +7,15 @@ interface Switch {
     on: boolean;
 }
 
+const NUM_TRIES_MIN = 4;
+
 export default class SwitchSimulation {
     switchLength: number;
     lightLength: number;
     switches: Switch[];
     lights: boolean[];
     setScore: SetScoreFn;
+    tries: number;
 
     constructor(
         switchLength: number,
@@ -22,6 +25,7 @@ export default class SwitchSimulation {
         this.switchLength = switchLength;
         this.lightLength = lightLength;
         this.setScore = setScore;
+        this.tries = 0;
 
         this.switches = [];
         this.lights = [];
@@ -54,7 +58,7 @@ export default class SwitchSimulation {
         let possibleCombi = Math.pow(2, this.switchLength);
         let valid = false;
 
-        for (let i = 0; i < possibleCombi; i++) {
+        for (let i = NUM_TRIES_MIN; i < possibleCombi; i++) {
             // break down i into binary string with length of switchLength
             let initialConfigLights = this.lights.slice();
 
@@ -85,15 +89,13 @@ export default class SwitchSimulation {
                     break;
                 }
             }
-            if (curValid) {
-                valid = true;
-                break;
-            }
+            if (curValid) return true;
         }
         return valid;
     }
 
-    toggleSwitch(switchIdx: number) {
+    toggleSwitch(switchIdx: number, timeElapsed: number) {
+        this.tries += 1;
         let switchObj = this.switches[switchIdx];
         for (
             let lightIdx = switchObj.startRange;
@@ -106,7 +108,7 @@ export default class SwitchSimulation {
 
         if (this.checkWin()) {
             setTimeout(() => {
-                this.setScore(new CountScore(this.switchLength));
+                this.setScore(new CountScore(this.tries));
             }, 2000);
         }
     }

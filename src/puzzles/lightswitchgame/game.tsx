@@ -17,8 +17,8 @@ function LightSwitch(props: LightSwitchProps) {
 
     useEffect(() => {
         let simulation = new SwitchSimulation(
-            Math.random() * 2 + 5,
-            Math.random() * 2 + 10,
+            Math.random() * 2 + 7,
+            Math.random() * 2 + 12,
             props.setScore
         );
         setGameState(simulation);
@@ -52,7 +52,10 @@ function LightSwitch(props: LightSwitchProps) {
                                         }
                                         key={index}
                                         onClick={() => {
-                                            gameState!.toggleSwitch(index);
+                                            gameState!.toggleSwitch(
+                                                index,
+                                                timeElapsed
+                                            );
 
                                             // duplicate object
                                             setGameState(
@@ -106,7 +109,7 @@ function LightSwitch(props: LightSwitchProps) {
 const LightSwitchGameDetails: Puzzle = {
     name: "Light Switch Game",
     description:
-        "You have 5-7 switches, and 10-12 lights. Each switch would toggle a certain range of lights. Thus, if the toggled range has lights: 'on on off off', the switch will cause the lights to become: 'off off on on'. The goal is to turn on all the lights. The time taken to solve the puzzle is the score.",
+        "You have 7-9 switches, and 12-14 lights. Each switch would toggle a certain range of lights. Thus, if the toggled range has lights: 'on on off off', the switch will cause the lights to become: 'off off on on'. The goal is to turn on all the lights. The amount of tries taken to solve the puzzle is the score, and the solution to the puzzle requires at least 3 switches to be toggled.",
     icon: LightbulbIcon,
     component: LightSwitch,
     debrief:

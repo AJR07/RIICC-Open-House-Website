@@ -59,17 +59,17 @@ export default function PuzzlePicker() {
         return <Component setScore={setScore} />;
     } else {
         return (
-            <div>
-                Game Over!
-                <div>Score: {score.toString()}</div>
-                <div
+            <Stack style={{ padding: "3vw" }}>
+                <h1 style={{ margin: 0 }}>Game Over, You did it!</h1>
+                <h2>Score: {score.toString()}</h2>
+                <p
                     dangerouslySetInnerHTML={{
                         __html: puzzles[gameID].debrief,
                     }}
-                ></div>
+                ></p>
                 <br />
                 <ScoreSubmission score={score} gameID={puzzles[gameID].name} />
-            </div>
+            </Stack>
         );
     }
 }

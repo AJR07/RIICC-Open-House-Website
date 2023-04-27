@@ -123,7 +123,7 @@ function MazeGame(props: MazeGameProps) {
 const MazeGameDetails: Puzzle = {
     name: "Maze",
     description:
-        "You are given a 20x20 maze. Find the way from the start to the exit in the fastest time possible!",
+        "You are given a 20x20 maze. Find the way from the start to the exit in the fastest time possible! The time taken to find the exit is your score.",
     icon: SearchIcon,
     component: MazeGame,
     debrief:

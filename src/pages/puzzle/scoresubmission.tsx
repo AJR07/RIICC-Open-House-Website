@@ -29,12 +29,13 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                     marginLeft: "20vw",
                     marginRight: "20vw",
                     borderRadius: "1vw",
-                    padding: "1vw",
+                    padding: "2vw",
+                    paddingTop: 0,
                 }}
             >
                 <h3 style={{ color: "black" }}>
-                    To register your score on the leaderboard, enter your name
-                    (and press enter)):
+                    To register your score on the leaderboard, enter your name,
+                    and press "enter".
                 </h3>
                 <TextField
                     label="Name"
@@ -42,6 +43,7 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                     onChange={(event) => {
                         setName(event.target.value);
                     }}
+                    fullWidth
                     onKeyPress={(event) => {
                         if (event.key === "Enter" && name !== "") {
                             let date =
