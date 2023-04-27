@@ -75,6 +75,16 @@ export default function PuzzlePicker() {
                         score={score}
                         gameID={puzzles[gameID].name}
                     />
+                    <Button
+                        variant="contained"
+                        style={{ marginTop: "2em" }}
+                        onClick={() => {
+                            setScore(null);
+                            setGameID(null);
+                        }}
+                    >
+                        Back to puzzles
+                    </Button>
                 </Stack>
                 <div style={{ flex: "1", width: "100%" }}>
                     <LeaderBoard gameID={puzzles[gameID].name} />
