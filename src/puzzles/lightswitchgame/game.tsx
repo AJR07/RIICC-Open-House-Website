@@ -13,7 +13,7 @@ interface LightSwitchProps {
     setScore: SetScoreFn;
 }
 
-const isDev = import.meta.env.MODE == "development";
+// const isDev = import.meta.env.MODE == "development";
 // const TIME_LIMIT = isDev ? 5000 : 2 * 60 * 1000;
 const TIME_LIMIT = 2 * 60 * 1000;
 

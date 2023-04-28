@@ -5,12 +5,13 @@ import StopWatch from "../../components/stopwatch";
 import { NilScore, TimeScore } from "../../pages/puzzle/types/score";
 import SearchIcon from "@mui/icons-material/Search";
 import SetScoreFn from "../../pages/puzzle/types/setScoreFn";
+import formatTime from "../../utils/formattime";
 
 interface MazeGameProps {
     setScore: SetScoreFn;
 }
 
-const isDev = import.meta.env.MODE == "development";
+const isDev = false; //import.meta.env.MODE == "development";
 const ROWS = isDev ? 5 : 20;
 const COLS = isDev ? 5 : 20;
 const TIME_LIMIT = isDev ? 5000 : 2 * 60 * 1000; // two minutes
@@ -20,7 +21,7 @@ function MazeGame(props: MazeGameProps) {
     const [selectedCells, setSelectedCells] = useState<number[]>([]);
     const [timeElapsed, setTimeElapsed] = useState(0);
 
-    const gridSqSize = "20px";
+    const gridSqSize = 30;
 
     const borderStyle = "1px solid white";
     const noBorderStyle = "none";
@@ -69,10 +70,10 @@ function MazeGame(props: MazeGameProps) {
                     onMouseDown={onMouseEnter}
                     style={{
                         position: "absolute",
-                        top: `calc(${gridSqSize} * ${i})`,
-                        left: `calc(${gridSqSize} * ${j})`,
-                        width: gridSqSize,
-                        height: gridSqSize,
+                        top: `${gridSqSize * i}px`,
+                        left: `${gridSqSize * j}px`,
+                        width: `${gridSqSize}px`,
+                        height: `${gridSqSize}px`,
                         boxSizing: "border-box",
 
                         backgroundColor: selectedCells.includes(cell)
@@ -104,7 +105,13 @@ function MazeGame(props: MazeGameProps) {
     }
 
     return (
-        <div style={{ userSelect: "none" }}>
+        <div style={{ padding: "2vw" }}>
+            <h1>Maze</h1>
+            <p>
+                Find the path to from the start (top left) to the finish (bottom
+                right)! You can click and drag to draw out the path.
+            </p>
+            <h3>Time limit: {formatTime(TIME_LIMIT, true)}</h3>
             <StopWatch
                 timeElapsed={timeElapsed}
                 setTimeElapsed={setTimeElapsed}
@@ -117,12 +124,23 @@ function MazeGame(props: MazeGameProps) {
             />
             <div
                 style={{
-                    position: "relative",
-                    width: `calc(${gridSqSize} * ${maze.width})`,
-                    height: `calc(${gridSqSize} * ${maze.height})`,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "5em",
+                    // width: "100%",
+                    // height: "100%",
                 }}
             >
-                {divs}
+                <div
+                    style={{
+                        position: "relative",
+                        width: `${gridSqSize * maze.width}px`,
+                        height: `${gridSqSize * maze.height}px`,
+                    }}
+                >
+                    {divs}
+                </div>
             </div>
         </div>
     );
