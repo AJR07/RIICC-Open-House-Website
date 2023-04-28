@@ -3,6 +3,7 @@ import { useLeaderboard } from "../hooks/leaderboardhook";
 
 interface LeaderBoardProps {
     gameID: string;
+    showCurrentUser?: string;
     showTopThree?: boolean;
 }
 
@@ -72,6 +73,11 @@ export default function LeaderBoard(props: LeaderBoardProps) {
                                 padding: "0.5em",
                                 border: "1px solid white",
                                 borderRadius: "2px",
+                                backgroundColor:
+                                    props.showCurrentUser &&
+                                    data.name == props.showCurrentUser
+                                        ? "#23a5ff"
+                                        : "transparent",
                             }}
                             key={data.id}
                         >

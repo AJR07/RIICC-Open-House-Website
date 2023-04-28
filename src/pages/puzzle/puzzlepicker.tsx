@@ -9,6 +9,7 @@ import puzzles from "../../puzzles/puzzles";
 export default function PuzzlePicker() {
     let [score, setScore] = useState<Score | null>(null);
     let [gameID, setGameID] = useState<number | null>(null);
+    let [username, setUsername] = useState<string | null>(null);
 
     if (gameID == null) {
         return (
@@ -88,6 +89,7 @@ export default function PuzzlePicker() {
                         <ScoreSubmission
                             score={score}
                             gameID={puzzles[gameID].name}
+                            setUsername={setUsername}
                         />
                     )}
                     <Button
@@ -102,7 +104,10 @@ export default function PuzzlePicker() {
                     </Button>
                 </Stack>
                 <div style={{ flex: "1", width: "100%" }}>
-                    <LeaderBoard gameID={puzzles[gameID].name} />
+                    <LeaderBoard
+                        gameID={puzzles[gameID].name}
+                        showCurrentUser={username ?? undefined}
+                    />
                 </div>
             </Stack>
         );

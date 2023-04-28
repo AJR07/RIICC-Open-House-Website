@@ -11,6 +11,7 @@ const db = getDatabase(firebaseApp);
 interface ScoreSubmissionProps {
     score: Score;
     gameID: string;
+    setUsername: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function ScoreSubmission(props: ScoreSubmissionProps) {
@@ -82,6 +83,7 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                                         );
                                         return;
                                     } else {
+                                        props.setUsername(name.trim());
                                         // override the score
                                         const newData = {
                                             ...existingEntry,
@@ -106,6 +108,7 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                             const newRef = push(
                                 ref(db, `game/${props.gameID}`)
                             );
+                            props.setUsername(name);
                             await set(newRef, {
                                 name,
                                 score: props.score.value,
