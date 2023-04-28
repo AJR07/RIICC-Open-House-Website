@@ -6,10 +6,15 @@ import { motion } from "framer-motion";
 import StopWatch from "../../components/stopwatch";
 import SetScoreFn from "../../pages/puzzle/types/setScoreFn";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import { NilScore } from "../../pages/puzzle/types/score";
+import formatTime from "../../utils/formattime";
 
 interface LightSwitchProps {
     setScore: SetScoreFn;
 }
+
+// const TIME_LIMIT = 2 * 60 * 1000;
+const TIME_LIMIT = 5000; // 5 seconds
 
 function LightSwitch(props: LightSwitchProps) {
     let [gameState, setGameState] = useState<null | SwitchSimulation>(null);
@@ -24,6 +29,11 @@ function LightSwitch(props: LightSwitchProps) {
         setGameState(simulation);
     }, []);
 
+    if (timeElapsed > TIME_LIMIT) {
+        props.setScore(new NilScore());
+        return <div>Time's up!</div>;
+    }
+
     return (
         <div style={{ padding: "2vw" }}>
             <h1>Light Switch</h1>
@@ -31,10 +41,17 @@ function LightSwitch(props: LightSwitchProps) {
                 The switches would help to toggle a certain range of lights. The
                 goal is to turn on all the lights.
             </p>
-            <h3>Score: {gameState?.tries ?? 0}</h3>
+            <h3>Number of tries: {gameState?.tries ?? 0}</h3>
+            <h3>Time limit: {formatTime(TIME_LIMIT, true)}</h3>
             <StopWatch
                 timeElapsed={timeElapsed}
                 setTimeElapsed={setTimeElapsed}
+                timeout={{
+                    value: TIME_LIMIT,
+                    callback: () => {
+                        props.setScore(new NilScore());
+                    },
+                }}
             />
             {!gameState ? (
                 <p>Loading...</p>

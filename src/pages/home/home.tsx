@@ -23,7 +23,7 @@ export default function Home() {
                 style={{ border: "solid white" }}
             />
             <h1>Instructions for Open House Puzzles </h1>
-            <body style={{ textAlign: "center" }}>
+            <p style={{ textAlign: "center" }}>
                 Welcome to RIICC's Open House Puzzle/Game Website! We have
                 designed 3 games for you to try out.
                 <br />
@@ -34,7 +34,7 @@ export default function Home() {
                 The website will ask for your name after each game, after which
                 your obtained score could be recorded under your name, so you
                 can see how you compare to others!
-            </body>
+            </p>
             <h2>Most importantly, HAVE FUN!</h2>
             <Stack spacing={5}>
                 <Button variant="contained" onClick={() => navigate("/puzzle")}>

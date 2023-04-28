@@ -4,6 +4,10 @@ import formatTime from "../utils/formattime";
 interface StopWatchProps {
     setTimeElapsed: React.Dispatch<React.SetStateAction<number>>;
     timeElapsed: number;
+    timeout?: {
+        value: number;
+        callback: () => void;
+    };
 }
 
 export default function StopWatch(props: StopWatchProps) {
@@ -12,7 +16,12 @@ export default function StopWatch(props: StopWatchProps) {
 
     useEffect(() => {
         let interval = setInterval(() => {
-            setTimeElapsed(Date.now() - startTime);
+            const x = Date.now() - startTime;
+            setTimeElapsed(x);
+
+            if (props.timeout && x > props.timeout.value) {
+                props.timeout.callback();
+            }
         }, 10);
 
         return () => {

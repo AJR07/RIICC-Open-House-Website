@@ -22,6 +22,17 @@ export class TimeScore extends Score {
     }
 }
 
+// used when user runs out of time
+export class NilScore extends Score {
+    constructor() {
+        super(Number.NaN);
+    }
+
+    toString(): string {
+        return "NilScore";
+    }
+}
+
 // returns a callback that returns negative if a is _better_ score than b
 export function compareScoreValue(
     gameID: string

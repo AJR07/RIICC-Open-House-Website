@@ -1,8 +1,8 @@
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import Puzzle from "../../pages/puzzle/types/puzzle";
 import { MazeData } from "./maze";
 import StopWatch from "../../components/stopwatch";
-import { TimeScore } from "../../pages/puzzle/types/score";
+import { NilScore, TimeScore } from "../../pages/puzzle/types/score";
 import SearchIcon from "@mui/icons-material/Search";
 import SetScoreFn from "../../pages/puzzle/types/setScoreFn";
 
@@ -12,8 +12,10 @@ interface MazeGameProps {
 
 // const ROWS = 20;
 // const COLS = 20;
+// const TIME_LIMIT = 2 * 60 * 1000; // two minutes
 const ROWS = 5;
 const COLS = 5;
+const TIME_LIMIT = 5000; // 5 seconds
 
 function MazeGame(props: MazeGameProps) {
     const [maze] = useState(new MazeData(ROWS, COLS));
@@ -108,6 +110,12 @@ function MazeGame(props: MazeGameProps) {
             <StopWatch
                 timeElapsed={timeElapsed}
                 setTimeElapsed={setTimeElapsed}
+                timeout={{
+                    value: TIME_LIMIT,
+                    callback: () => {
+                        props.setScore(new NilScore());
+                    },
+                }}
             />
             <div
                 style={{
@@ -128,19 +136,18 @@ const MazeGameDetails: Puzzle = {
         "You are given a 20x20 maze. Find the way from the start to the exit in the fastest time possible! The time taken to find the exit is your score.",
     icon: SearchIcon,
     component: MazeGame,
-    debrief:
-        "Reflect on the process which you used to solve the maze. \
-    How did you systematically try to find your way to the exit? \
-    Do you know if that is the shortest possible path? \
-    How <em>do</em> you find the shortest possible path? \
-    <br />  \
-    P.S. what sort of algorithm (i.e. process) was used to generate this random maze in the first place? \
-    A few tips to get you started: \
-    1. You should try to generally move towards the exit. \
-    2. You should try to avoid going back to places you've already been. \
-    3. Do not be afraid to backtrack if you get stuck. \
-    4. You can initially use your eyes to trace the path, it could be more efficient \
-    5. You could try to go from the exit to the start instead if you get stuck.",
+    debrief: `Reflect on the process which you used to solve the maze. 
+    How did you systematically try to find your way to the exit? 
+    Do you know if that is the shortest possible path? 
+    How <em>do</em> you find the shortest possible path? 
+    A few tips to get you started: 
+    1. You should try to generally move towards the exit. 
+    2. You should try to avoid going back to places you've already been. 
+    3. Do not be afraid to backtrack if you get stuck. 
+    4. You can initially use your eyes to trace the path, it could be more efficient 
+    5. You could try to go from the exit to the start instead if you get stuck. 
+    <br />  
+  P.S.what sort of algorithm(i.e.process) was used to generate this random maze in the first place?`,
 };
 
 export default MazeGameDetails;
