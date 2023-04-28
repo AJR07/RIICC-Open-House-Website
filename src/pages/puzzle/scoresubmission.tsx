@@ -48,6 +48,14 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                     fullWidth
                     onKeyPress={async (event) => {
                         if (event.key === "Enter" && name !== "") {
+                            // check
+                            if (name.trim().length > 50) {
+                                alert(
+                                    "Sorry, your name can't have more than 50 characters"
+                                );
+                                return;
+                            }
+
                             // check if name already exists
                             const existingEntry = leaderboard.find(
                                 (v) => v.name == name.trim()
@@ -95,20 +103,6 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                                 }
                             }
 
-                            // let date =
-                            //   new Date()
-                            //     .toLocaleDateString("en-SG", {
-                            //       year: "numeric",
-                            //       month: "long",
-                            //       day: "numeric",
-                            //     })
-                            //     .replaceAll("/", "-") +
-                            //   new Date().toLocaleString("en-SG", {
-                            //     hour: "numeric",
-                            //     minute: "numeric",
-                            //     second: "numeric",
-                            //     hour12: false,
-                            //   });
                             const newRef = push(
                                 ref(db, `game/${props.gameID}`)
                             );
