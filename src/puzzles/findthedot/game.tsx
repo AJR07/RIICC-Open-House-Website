@@ -24,7 +24,7 @@ interface MousePos {
     y: number | null;
 }
 
-function TraceDot(props: MazeGameProps) {
+function FindDot(props: MazeGameProps) {
     const [timeElapsed, setTimeElapsed] = useState(0);
     const [clicks, useClicks] = useState(0);
     const [clickedPos, setClickedPos] = useState<MousePos>({
@@ -44,7 +44,31 @@ function TraceDot(props: MazeGameProps) {
     }, []);
 
     return (
-        <Stack direction="row">
+        <Stack
+            direction="row"
+            onClick={() => {
+                console.log(currentPos.x, currentPos.y);
+                if (
+                    !currentPos.x ||
+                    !currentPos.y ||
+                    currentPos.x - 10 < 0 ||
+                    currentPos.x - 10 > ROWS ||
+                    currentPos.y < 0 ||
+                    currentPos.y > COLS
+                )
+                    return;
+                useClicks((c) => c + 1);
+                setClickedPos(currentPos);
+                if (
+                    clickedPos.x &&
+                    clickedPos.y &&
+                    Math.abs(clickedPos.x - targetPos.x!) < 10 &&
+                    Math.abs(clickedPos.y - targetPos.y!) < 10
+                ) {
+                    props.setScore(new CountScore(clicks));
+                }
+            }}
+        >
             <div>
                 <StopWatch
                     timeElapsed={timeElapsed}
@@ -130,22 +154,10 @@ function TraceDot(props: MazeGameProps) {
                         border: "solid white",
                         margin: "1vw",
                     }}
-                    onClick={() => {
-                        useClicks((c) => c + 1);
-                        setClickedPos(currentPos);
-                        if (
-                            clickedPos.x &&
-                            clickedPos.y &&
-                            Math.abs(clickedPos.x - targetPos.x!) < 10 &&
-                            Math.abs(clickedPos.y - targetPos.y!) < 10
-                        ) {
-                            props.setScore(new CountScore(clicks));
-                        }
-                    }}
                 />
             </div>
             <Stack>
-                <h1>Trace Dot!</h1>
+                <h1>Find the Dot!</h1>
                 <p style={{ margin: 0 }}>
                     Click a location and observe the arrows. They will point you
                     towards the direction of the final target. Guess your way to
@@ -157,12 +169,12 @@ function TraceDot(props: MazeGameProps) {
     );
 }
 
-const TraceDotDetails: Puzzle = {
-    name: "Trace Dot",
+const FindTheDotDetails: Puzzle = {
+    name: "Find The Dot",
     description:
         "You are given a square. Upon clicking on some spot, 2 arrows will tell u which direction the target spot is. Keep guessing, until your guess is close enough to the target spot. The lesser ur guesses, the better! You have 1 minute.",
     icon: DoubleArrowIcon,
-    component: TraceDot,
+    component: FindDot,
     debrief: `Think about what algorithms we could use to optimise this. 
     What if we had a 100x100 grid? What if we had a 1000x1000 grid? What if we had a 10000x10000 grid?
     There is something called 'Binary Search'. Basically, we want to use the arrow directions to narrow down the search space.
@@ -172,4 +184,4 @@ const TraceDotDetails: Puzzle = {
     `,
 };
 
-export default TraceDotDetails;
+export default FindTheDotDetails;

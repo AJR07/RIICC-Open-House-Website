@@ -7,7 +7,7 @@ interface Switch {
     on: boolean;
 }
 
-const NUM_TRIES_MIN = 4;
+const NUM_TRIES_MIN = 5;
 
 export default class SwitchSimulation {
     switchLength: number;
@@ -58,11 +58,16 @@ export default class SwitchSimulation {
         let possibleCombi = Math.pow(2, this.switchLength);
         let valid = false;
 
-        for (let i = NUM_TRIES_MIN; i < possibleCombi; i++) {
+        for (let i = 0; i < possibleCombi; i++) {
             // break down i into binary string with length of switchLength
             let initialConfigLights = this.lights.slice();
 
-            let binary = i.toString(2).padStart(this.switchLength, "0");
+            let binary = i.toString(2).padStart(this.switchLength, "0"),
+                count = 0;
+            for (let i of binary) {
+                count += parseInt(i);
+            }
+            if (count <= NUM_TRIES_MIN) continue;
 
             for (
                 let switchStateIdx = 0;
