@@ -1,7 +1,7 @@
 import { TextField, Stack } from "@mui/material";
 import { useState } from "react";
 import { compareScoreValue, Score } from "./types/score";
-import { getDatabase, ref, set, update } from "firebase/database";
+import { getDatabase, push, ref, set, update } from "firebase/database";
 import firebaseApp from "../../utils/firebase";
 import LeaderBoardData from "../../types/leaderboarddata";
 import { useLeaderboard } from "../../hooks/leaderboardhook";
@@ -82,7 +82,7 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                                                 props.score.toString(),
                                         };
                                         await update(ref(db), {
-                                            [`game/${props.gameID}/${existingEntry.date}`]:
+                                            [`game/${props.gameID}/${existingEntry.id}`]:
                                                 newData,
                                         });
                                         setStatusMsg(
@@ -95,25 +95,28 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                                 }
                             }
 
-                            let date =
-                                new Date()
-                                    .toLocaleDateString("en-SG", {
-                                        year: "numeric",
-                                        month: "long",
-                                        day: "numeric",
-                                    })
-                                    .replaceAll("/", "-") +
-                                new Date().toLocaleString("en-SG", {
-                                    hour: "numeric",
-                                    minute: "numeric",
-                                    second: "numeric",
-                                    hour12: false,
-                                });
-
-                            await set(ref(db, `game/${props.gameID}/${date}`), {
-                                name: name,
+                            // let date =
+                            //   new Date()
+                            //     .toLocaleDateString("en-SG", {
+                            //       year: "numeric",
+                            //       month: "long",
+                            //       day: "numeric",
+                            //     })
+                            //     .replaceAll("/", "-") +
+                            //   new Date().toLocaleString("en-SG", {
+                            //     hour: "numeric",
+                            //     minute: "numeric",
+                            //     second: "numeric",
+                            //     hour12: false,
+                            //   });
+                            const newRef = push(
+                                ref(db, `game/${props.gameID}`)
+                            );
+                            await set(newRef, {
+                                name,
                                 score: props.score.value,
-                                date: date,
+                                id: newRef.key,
+                                timestamp: Date.now(),
                                 scoreFormatted: props.score.toString(),
                             } as LeaderBoardData);
                             setStatusMsg("Successfully recorded!");
