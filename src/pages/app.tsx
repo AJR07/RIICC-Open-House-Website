@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./home/home";
 import PuzzlePicker from "./puzzle/puzzlepicker";
-import LeaderBoard from "../components/leaderboard";
+import LeaderboardPage from "./leaderboard/leaderboard";
 
 export default function App() {
     return (
@@ -10,6 +10,7 @@ export default function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/puzzle" element={<PuzzlePicker />} />
+                <Route path="/leaderboard" element={<LeaderboardPage />} />
             </Routes>
         </BrowserRouter>
     );

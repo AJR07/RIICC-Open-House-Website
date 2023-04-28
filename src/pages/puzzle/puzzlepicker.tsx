@@ -1,14 +1,10 @@
 import { Button, Stack } from "@mui/material";
-import Puzzle from "./types/puzzle";
 import { useState } from "react";
-import LightSwitchGameDetails from "../../puzzles/lightswitchgame/game";
 import { motion } from "framer-motion";
-import MazeGameDetails from "../../puzzles/mazegame/game";
 import { Score } from "./types/score";
 import ScoreSubmission from "./scoresubmission";
 import LeaderBoard from "../../components/leaderboard";
-
-const puzzles: Puzzle[] = [LightSwitchGameDetails, MazeGameDetails];
+import puzzles from "../../puzzles/puzzles";
 
 export default function PuzzlePicker() {
     let [score, setScore] = useState<Score | null>(null);
