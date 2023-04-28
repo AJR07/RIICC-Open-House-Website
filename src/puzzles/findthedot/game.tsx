@@ -16,8 +16,8 @@ interface FindDotProps {
 }
 
 const isDev = import.meta.env.MODE == "development";
-const ROWS = isDev ? 500 : 1000;
-const COLS = isDev ? 500 : 1000;
+const ROWS = isDev ? 500 : 750;
+const COLS = isDev ? 500 : 750;
 const TIME_LIMIT = isDev ? Infinity : 60 * 1000; // one minute
 
 interface MousePos {
