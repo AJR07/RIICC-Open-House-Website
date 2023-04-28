@@ -124,23 +124,15 @@ function MazeGame(props: MazeGameProps) {
             />
             <div
                 style={{
+                    position: "relative",
+                    width: `calc(${gridSqSize} * ${maze.width})`,
+                    height: `calc(${gridSqSize} * ${maze.height})`,
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    margin: "5em",
-                    // width: "100%",
-                    // height: "100%",
                 }}
             >
-                <div
-                    style={{
-                        position: "relative",
-                        width: `${gridSqSize * maze.width}px`,
-                        height: `${gridSqSize * maze.height}px`,
-                    }}
-                >
-                    {divs}
-                </div>
+                {divs}
             </div>
         </div>
     );
