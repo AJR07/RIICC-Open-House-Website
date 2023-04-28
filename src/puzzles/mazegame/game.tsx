@@ -22,7 +22,7 @@ function MazeGame(props: MazeGameProps) {
     const [selectedCells, setSelectedCells] = useState<number[]>([]);
     const [timeElapsed, setTimeElapsed] = useState(0);
 
-    const gridSqSize = 30;
+    const gridSqSize = 25;
 
     const borderStyle = "1px solid white";
     const noBorderStyle = "none";
