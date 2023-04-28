@@ -73,6 +73,7 @@ export default function LeaderBoard(props: LeaderBoardProps) {
                                 border: "1px solid white",
                                 borderRadius: "2px",
                             }}
+                            key={data.date}
                         >
                             <div>
                                 #{index + 1}. {data.name}
