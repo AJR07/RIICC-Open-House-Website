@@ -109,7 +109,7 @@ export default class SwitchSimulation {
         if (this.checkWin()) {
             setTimeout(() => {
                 this.setScore(new CountScore(this.tries));
-            }, 2000);
+            }, 500);
         }
     }
 
