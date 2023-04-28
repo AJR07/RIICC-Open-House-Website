@@ -10,12 +10,10 @@ interface MazeGameProps {
     setScore: SetScoreFn;
 }
 
-// const ROWS = 20;
-// const COLS = 20;
-// const TIME_LIMIT = 2 * 60 * 1000; // two minutes
-const ROWS = 5;
-const COLS = 5;
-const TIME_LIMIT = 5000; // 5 seconds
+const isDev = import.meta.env.MODE == "development";
+const ROWS = isDev ? 5 : 20;
+const COLS = isDev ? 5 : 20;
+const TIME_LIMIT = isDev ? 5000 : 2 * 60 * 1000; // two minutes
 
 function MazeGame(props: MazeGameProps) {
     const [maze] = useState(new MazeData(ROWS, COLS));

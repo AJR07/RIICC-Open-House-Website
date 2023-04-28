@@ -13,8 +13,8 @@ interface LightSwitchProps {
     setScore: SetScoreFn;
 }
 
-// const TIME_LIMIT = 2 * 60 * 1000;
-const TIME_LIMIT = 5000; // 5 seconds
+const isDev = import.meta.env.MODE == "devlopment";
+const TIME_LIMIT = isDev ? 5000 : 2 * 60 * 1000;
 
 function LightSwitch(props: LightSwitchProps) {
     let [gameState, setGameState] = useState<null | SwitchSimulation>(null);
