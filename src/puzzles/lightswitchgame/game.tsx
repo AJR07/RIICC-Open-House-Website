@@ -13,8 +13,9 @@ interface LightSwitchProps {
     setScore: SetScoreFn;
 }
 
-const isDev = import.meta.env.MODE == "devlopment";
-const TIME_LIMIT = isDev ? 5000 : 2 * 60 * 1000;
+const isDev = import.meta.env.MODE == "development";
+// const TIME_LIMIT = isDev ? 5000 : 2 * 60 * 1000;
+const TIME_LIMIT = 2 * 60 * 1000;
 
 function LightSwitch(props: LightSwitchProps) {
     let [gameState, setGameState] = useState<null | SwitchSimulation>(null);
@@ -107,12 +108,13 @@ function LightSwitch(props: LightSwitchProps) {
                                 return (
                                     <img
                                         key={index}
-                                        src={
-                                            lightState
-                                                ? "/light-on.png"
-                                                : "/light-off.png"
-                                        }
-                                        style={{ width: "3vw" }}
+                                        src="/light-on.png"
+                                        style={{
+                                            width: "3vw",
+                                            filter: lightState
+                                                ? ""
+                                                : "grayscale(1) brightness(50%)",
+                                        }}
                                     />
                                 );
                             })}
