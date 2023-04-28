@@ -153,6 +153,7 @@ function FindDot(props: MazeGameProps) {
                         height: `${COLS}px`,
                         border: "solid white",
                         margin: "1vw",
+                        cursor: "crosshair",
                     }}
                 />
             </div>
