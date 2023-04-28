@@ -17,7 +17,7 @@ interface MazeGameProps {
 const isDev = import.meta.env.MODE == "development";
 const ROWS = isDev ? 500 : 1000;
 const COLS = isDev ? 500 : 1000;
-const TIME_LIMIT = isDev ? Infinity : 60 * 1000; // two minutes
+const TIME_LIMIT = isDev ? Infinity : 60 * 1000; // one minute
 
 interface MousePos {
     x: number | null;
