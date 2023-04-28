@@ -7,6 +7,8 @@ interface LeaderBoardProps {
     showTopThree?: boolean;
 }
 
+const MAX_CHAR = 20;
+
 export default function LeaderBoard(props: LeaderBoardProps) {
     const leaderboard = useLeaderboard(props.gameID);
 
@@ -19,7 +21,14 @@ export default function LeaderBoard(props: LeaderBoardProps) {
                         <h2>
                             1st -{" "}
                             {leaderboard[0]
-                                ? `${leaderboard[0].name} (${leaderboard[0].scoreFormatted})`
+                                ? `${leaderboard[0].name.substring(
+                                      0,
+                                      MAX_CHAR
+                                  )}${
+                                      leaderboard[0].name.length > MAX_CHAR
+                                          ? "..."
+                                          : ""
+                                  } [${leaderboard[0].scoreFormatted}]`
                                 : "(EMPTY)"}
                         </h2>
                     </Stack>
@@ -38,7 +47,14 @@ export default function LeaderBoard(props: LeaderBoardProps) {
                             <h2>
                                 2nd -{" "}
                                 {leaderboard[1]
-                                    ? `${leaderboard[1].name} (${leaderboard[1].scoreFormatted})`
+                                    ? `${leaderboard[1].name.substring(
+                                          0,
+                                          MAX_CHAR
+                                      )}${
+                                          leaderboard[1].name.length > MAX_CHAR
+                                              ? "..."
+                                              : ""
+                                      } [${leaderboard[1].scoreFormatted}]`
                                     : "(EMPTY)"}
                             </h2>
                         </Stack>
@@ -56,7 +72,14 @@ export default function LeaderBoard(props: LeaderBoardProps) {
                             <h2>
                                 3rd -{" "}
                                 {leaderboard[2]
-                                    ? `${leaderboard[2].name} (${leaderboard[2].scoreFormatted})`
+                                    ? `${leaderboard[2].name.substring(
+                                          0,
+                                          MAX_CHAR
+                                      )}${
+                                          leaderboard[2].name.length > MAX_CHAR
+                                              ? "..."
+                                              : ""
+                                      } [${leaderboard[2].scoreFormatted}]`
                                     : "(EMPTY)"}
                             </h2>
                         </Stack>
