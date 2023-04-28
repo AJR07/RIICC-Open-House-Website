@@ -53,7 +53,21 @@ export default function PuzzlePicker() {
         );
     } else if (!score) {
         let Component = puzzles[gameID].component;
-        return <Component setScore={setScore} />;
+        return (
+            <Stack>
+                <Component setScore={setScore} />
+                <Button
+                    variant="outlined"
+                    style={{ margin: "2em auto", width: "fit-content" }}
+                    onClick={() => {
+                        setScore(null);
+                        setGameID(null);
+                    }}
+                >
+                    Back to puzzles
+                </Button>
+            </Stack>
+        );
     } else {
         const timedOut = score instanceof NilScore;
         return (
