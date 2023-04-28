@@ -105,7 +105,7 @@ function MazeGame(props: MazeGameProps) {
     }
 
     return (
-        <div style={{ padding: "2vw" }}>
+        <div style={{ padding: "1em 5em" }}>
             <h1>Maze</h1>
             <p>
                 Find the path to from the start (top left) to the finish (bottom
@@ -124,15 +124,28 @@ function MazeGame(props: MazeGameProps) {
             />
             <div
                 style={{
-                    position: "relative",
-                    width: `calc(${gridSqSize} * ${maze.width})`,
-                    height: `calc(${gridSqSize} * ${maze.height})`,
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    marginTop: "2em",
+                    marginBottom: "1em",
+                    marginLeft: "5em",
+                    marginRight: "5em",
+                    padding: "0",
                 }}
             >
-                {divs}
+                <div
+                    style={{
+                        position: "relative",
+                        width: `${gridSqSize * maze.width}px`,
+                        height: `${gridSqSize * maze.height}px`,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    {divs}
+                </div>
             </div>
         </div>
     );
