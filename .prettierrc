@@ -2,5 +2,6 @@
     "trailingComma": "es5",
     "tabWidth": 4,
     "useTabs": false,
-    "semi": true
+    "semi": true,
+    "proseWrap": "always"
 }

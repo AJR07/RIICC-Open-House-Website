@@ -9,22 +9,23 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { Stack } from "@mui/material";
+import { html as traceDotDebrief } from "./debrief.md";
 
-interface MazeGameProps {
+interface FindDotProps {
     setScore: SetScoreFn;
 }
 
 const isDev = import.meta.env.MODE == "development";
 const ROWS = isDev ? 500 : 1000;
 const COLS = isDev ? 500 : 1000;
-const TIME_LIMIT = isDev ? Infinity : 60 * 1000; // two minutes
+const TIME_LIMIT = isDev ? Infinity : 60 * 1000; // one minute
 
 interface MousePos {
     x: number | null;
     y: number | null;
 }
 
-function FindDot(props: MazeGameProps) {
+function FindDot(props: FindDotProps) {
     const [timeElapsed, setTimeElapsed] = useState(0);
     const [clicks, useClicks] = useState(0);
     const [clickedPos, setClickedPos] = useState<MousePos>({
@@ -176,13 +177,7 @@ const FindTheDotDetails: Puzzle = {
         "You are given a square. Upon clicking on some spot, 2 arrows will tell u which direction the target spot is. Keep guessing, until your guess is close enough to the target spot. The lesser ur guesses, the better! You have 1 minute.",
     icon: DoubleArrowIcon,
     component: FindDot,
-    debrief: `Think about what algorithms we could use to optimise this. 
-    What if we had a 100x100 grid? What if we had a 1000x1000 grid? What if we had a 10000x10000 grid?
-    There is something called 'Binary Search'. Basically, we want to use the arrow directions to narrow down the search space.
-    for example, if the arrow directions are pointing up and right, we know that the target is in the top right quadrant.
-    We can then put our next guess in the middle of that quadrant. We can keep doing this, until we get close enough to the target.
-    This is the optimal solution to this game.
-    `,
+    debrief: traceDotDebrief,
 };
 
 export default FindTheDotDetails;

@@ -43,8 +43,10 @@ export function compareScoreValue(
                 return a - b; // smaller is better
             case "Maze":
                 return a - b; //smaller is better
+            case "Trace Dot":
+                return a - b; //smaller is better
             default:
-                return b - a; // default to bigger = better
+                return a - b; // default to smaller = better
         }
     };
 }

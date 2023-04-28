@@ -8,14 +8,15 @@ import SetScoreFn from "../../pages/puzzle/types/setScoreFn";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import { NilScore } from "../../pages/puzzle/types/score";
 import formatTime from "../../utils/formattime";
+import { html as lightSwitchDebrief } from "./debrief.md";
 
 interface LightSwitchProps {
     setScore: SetScoreFn;
 }
 
-// const isDev = import.meta.env.MODE == "development";
-// const TIME_LIMIT = isDev ? 5000 : 2 * 60 * 1000;
-const TIME_LIMIT = 2 * 60 * 1000;
+const isDev = import.meta.env.MODE == "development";
+const TIME_LIMIT = isDev ? 5000 : 2 * 60 * 1000;
+// const TIME_LIMIT = 2 * 60 * 1000;
 
 function LightSwitch(props: LightSwitchProps) {
     let [gameState, setGameState] = useState<null | SwitchSimulation>(null);
@@ -132,8 +133,7 @@ const LightSwitchGameDetails: Puzzle = {
         "You have 7-9 switches, and 12-14 lights. Each switch would toggle a certain range of lights. Thus, if the toggled range has lights: 'on on off off', the switch will cause the lights to become: 'off off on on'. The goal is to turn on all the lights. The amount of tries taken to solve the puzzle is the score, and the solution to the puzzle requires at least 3 switches to be toggled.",
     icon: LightbulbIcon,
     component: LightSwitch,
-    debrief:
-        "Reflect on how your strategy could have been improved, or did you use a strategy to begin with? There are a few techniques that can minimize your time for this puzzle. That includes: 1. Remembering which switch toggles what range, 2. When a few lights are left to be switched on, only fiddling and toggling those that affect those lights, 3. A switch which toggles a large range might still be needed to fix a few lights, so don't hesitate to toggle them, 4. Just keep toggling, do not waste time.",
+    debrief: lightSwitchDebrief,
 };
 
 export default LightSwitchGameDetails;
