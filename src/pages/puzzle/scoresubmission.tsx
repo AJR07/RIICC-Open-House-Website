@@ -1,4 +1,4 @@
-import { TextField, Stack } from "@mui/material";
+import { TextField, Stack, Button } from "@mui/material";
 import { useState } from "react";
 import { compareScoreValue, Score } from "./types/score";
 import { getDatabase, push, ref, set, update } from "firebase/database";
@@ -40,89 +40,115 @@ export default function ScoreSubmission(props: ScoreSubmissionProps) {
                     To register your score on the leaderboard, enter your name,
                     and press "enter".
                 </h3>
-                <TextField
-                    label="Name"
-                    variant="filled"
-                    onChange={(event) => {
-                        setName(event.target.value);
+                <Stack
+                    direction="row"
+                    style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                     }}
-                    fullWidth
-                    onKeyPress={async (event) => {
-                        if (event.key === "Enter" && name !== "") {
-                            // check
-                            if (name.trim().length > 50) {
-                                alert(
-                                    "Sorry, your name can't have more than 50 characters"
+                    spacing={5}
+                >
+                    <TextField
+                        label="Name"
+                        variant="filled"
+                        onChange={(event) => {
+                            setName(event.target.value);
+                        }}
+                        fullWidth
+                        onKeyPress={async (event) => {
+                            if (event.key === "Enter" && name !== "") {
+                                await record(
+                                    name,
+                                    leaderboard,
+                                    props,
+                                    setStatusMsg
                                 );
-                                return;
                             }
-
-                            // check if name already exists
-                            const existingEntry = leaderboard.find(
-                                (v) => v.name == name.trim()
-                            );
-                            if (existingEntry) {
-                                if (
-                                    confirm(
-                                        "There is already someone with the same name on the leaderboard. If you re-trying the puzzle, click ok and your old score will be updated. Otherwise, go back and use a differnt name :D"
-                                    )
-                                ) {
-                                    // check if it's faster than existing entry
-                                    if (
-                                        compareScoreValue(props.gameID)(
-                                            props.score.value,
-                                            existingEntry.score
-                                        ) > 0
-                                    ) {
-                                        // not better
-                                        alert(
-                                            "Your new score is worse than your old score, so no changes will be made."
-                                        );
-                                        setStatusMsg(
-                                            "Leaderboard wasn't updated with worse score."
-                                        );
-                                        return;
-                                    } else {
-                                        props.setUsername(name.trim());
-                                        // override the score
-                                        const newData = {
-                                            ...existingEntry,
-                                            score: props.score.value,
-                                            scoreFormatted:
-                                                props.score.toString(),
-                                        };
-                                        await update(ref(db), {
-                                            [`game/${props.gameID}/${existingEntry.id}`]:
-                                                newData,
-                                        });
-                                        setStatusMsg(
-                                            "Successfully updated leaderboard!"
-                                        );
-                                    }
-                                    return;
-                                } else {
-                                    return;
-                                }
-                            }
-
-                            const newRef = push(
-                                ref(db, `game/${props.gameID}`)
-                            );
-                            props.setUsername(name);
-                            await set(newRef, {
-                                name,
-                                score: props.score.value,
-                                id: newRef.key,
-                                timestamp: Date.now(),
-                                scoreFormatted: props.score.toString(),
-                            } as LeaderBoardData);
-                            setStatusMsg("Successfully recorded!");
+                        }}
+                    />
+                    <Button
+                        variant="contained"
+                        onClick={() =>
+                            record(name, leaderboard, props, setStatusMsg)
                         }
-                    }}
-                />
+                        style={{ height: "75%" }}
+                    >
+                        Record!
+                    </Button>
+                </Stack>
             </Stack>
         );
     } else {
         return <h5>{statusMsg}</h5>;
     }
+}
+
+async function record(
+    name: string,
+    leaderboard: LeaderBoardData[],
+    props: ScoreSubmissionProps,
+    setStatusMsg: React.Dispatch<React.SetStateAction<string | null>>
+) {
+    // check
+    if (name.trim().length > 50) {
+        alert("Sorry, your name can't have more than 50 characters");
+        return;
+    }
+    if (name.trim().length < 3) {
+        alert("Sorry, your name can't have less than 3 characters");
+        return;
+    }
+
+    // check if name already exists
+    const existingEntry = leaderboard.find((v) => v.name == name.trim());
+    if (existingEntry) {
+        if (
+            confirm(
+                "There is already someone with the same name on the leaderboard. If you re-trying the puzzle, click ok and your old score will be updated. Otherwise, go back and use a differnt name :D"
+            )
+        ) {
+            // check if it's faster than existing entry
+            if (
+                compareScoreValue(props.gameID)(
+                    props.score.value,
+                    existingEntry.score
+                ) > 0
+            ) {
+                // not better
+                alert(
+                    "Your new score is worse than your old score, so no changes will be made."
+                );
+                setStatusMsg("Leaderboard wasn't updated with worse score.");
+                return;
+            } else {
+                props.setUsername(name.trim());
+                // override the score
+                const newData = {
+                    ...existingEntry,
+                    score: props.score.value,
+                    scoreFormatted: props.score.toString(),
+                };
+                await update(ref(db), {
+                    [`game/${props.gameID}/${existingEntry.id}`]: newData,
+                });
+                setStatusMsg("Successfully updated leaderboard!");
+            }
+            return;
+        } else {
+            return;
+        }
+    }
+
+    const newRef = push(ref(db, `game/${props.gameID}`));
+    props.setUsername(name);
+    await set(newRef, {
+        name,
+        score: props.score.value,
+        id: newRef.key,
+        timestamp: Date.now(),
+        scoreFormatted: props.score.toString(),
+    } as LeaderBoardData);
+    setStatusMsg("Successfully recorded!");
 }

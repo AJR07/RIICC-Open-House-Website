@@ -63,6 +63,7 @@ export default function PuzzlePicker() {
                     onClick={() => {
                         setScore(null);
                         setGameID(null);
+                        setUsername(null);
                     }}
                 >
                     Back to puzzles
@@ -98,6 +99,7 @@ export default function PuzzlePicker() {
                         onClick={() => {
                             setScore(null);
                             setGameID(null);
+                            setUsername(null);
                         }}
                     >
                         Back to puzzles
